@@ -66,12 +66,12 @@ function ModalNewEspecialist() {
                 if (response.ok) {
                     const modal = document.getElementById('my_modal_1')
                     modal.close()
-                    resetForm();
+                  
                     window.location.reload()
                 }
         })
         .catch(error => console.log(error))
-     
+        resetForm();
     }
 
 
