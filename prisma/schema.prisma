@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model agendar_citas {
+  fk_idCita         String       @db.Char(7)
+  fk_idEspecialista String       @db.Char(7)
+  consultorio       String       @db.VarChar(20)
+  fechaCita         DateTime     @db.Timestamptz(6)
+  horaCita          DateTime     @db.Time(6)
+  turno             String       @db.VarChar(10)
+  status            String       @db.VarChar(10)
+  observaciones     String       @db.VarChar(100)
+  cita              cita         @relation(fields: [fk_idCita], references: [pk_idCita], onDelete: Cascade)
+  especialista      especialista @relation(fields: [fk_idEspecialista], references: [pk_idEspecialista], onDelete: Cascade)
+
+  @@id([fk_idCita, fk_idEspecialista])
+}
+
+model cita {
+  pk_idCita     String          @id @db.Char(7)
+  fecha         DateTime        @db.Timestamptz(6)
+  hora          DateTime        @db.Time(6)
+  fk_idPaciente String?         @db.Char(6)
+  agendar_citas agendar_citas[]
+  pacientes     pacientes?      @relation(fields: [fk_idPaciente], references: [pk_idPaciente], onDelete: Cascade)
+}
+
+model especialista {
+  pk_idEspecialista       String                    @id @db.Char(7) 
+  nombre                  String                    @db.VarChar(20)
+  apellido                String                    @db.VarChar(20)
+  sexo                    String                    @db.Char(1)
+  fechaNacimiento         DateTime                  @db.Date
+  especialidad            String                    @db.VarChar(30)
+  agendar_citas           agendar_citas[]
+  expediente_diagnosticos expediente_diagnosticos[]
+}
+
+model expediente_diagnosticos {
+  serial            Int           @id
+  edad              String        @db.Char(3)
+  peso              String        @db.Char(3)
+  altura            String        @db.Char(4)
+  IMC               String        @db.Char(5)
+  nivelPeso         String        @db.Char(10)
+  presionArterial   String        @db.Char(8)
+  diagnostico       String        @db.VarChar(150)
+  recetario         String        @db.VarChar(150)
+  fechaCreacion     DateTime      @db.Timestamptz(6)
+  fk_idEspecialista String?       @db.Char(7)
+  especialista      especialista? @relation(fields: [fk_idEspecialista], references: [pk_idEspecialista])
+}
+
+model expedientes {
+  pk_idPaciente   String    @id @db.Char(6)
+  tipoSangre      String    @db.VarChar(10)
+  tipoAlergia     String    @db.VarChar(50)
+  padecimientoCro String    @db.VarChar(50)
+  fechaCreacion   DateTime  @db.Timestamptz(6)
+  pacientes       pacientes @relation(fields: [pk_idPaciente], references: [pk_idPaciente], onDelete: Cascade)
+}
+
+model pacientes {
+  pk_idPaciente   String       @id @db.Char(6)
+  nombre          String       @db.VarChar(20)
+  apellido        String       @db.VarChar(20)
+  sexo            String       @db.Char(1)
+  fechaNacimiento DateTime     @db.Timestamptz(6)
+  region          String       @db.VarChar(200)
+  ciudad          String       @db.VarChar(200)
+  telefono        String?      @unique @db.Char(12)
+  estado          Boolean?     @default(true)
+  cita            cita[]
+  expedientes     expedientes?
+}
+
+enum enum_pacientes_estado {
+  Activo
+  Inactivo
+}

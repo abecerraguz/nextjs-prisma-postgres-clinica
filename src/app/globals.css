@@ -2,26 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body{
+  @apply text-base;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+p{
+  margin-bottom: 0.5rem;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.contentSpinnerLoading{
+  background-color: rgb(20 20 20 / 42%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
+
+@keyframes spin {
+  to { transform: rotate(360deg);}
+}
+
+.contentSpinnerLoading__spinner {        
+    border: 8px solid rgb(255 255 255 / 25%);
+    border-left-color: #67e8f9;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1.2s linear infinite;
+}
+
+/* .table :where(thead, tbody) :where(tr:first-child:last-child) {
+  border-bottom: 1px solid #e2e8f04b!important;
+} */
