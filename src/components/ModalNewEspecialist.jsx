@@ -108,13 +108,12 @@ function ModalNewEspecialist() {
                         </Field>
                         <ErrorMessage name="sexo" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
-                        <Field type="date" placeholder="Fecha de Nacimiento" id="fechaNacimiento" name="fechaNacimiento" />
+                        {/* <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01"></input> */}
+                        <Field type="date" id="fechaNacimiento" name="fechaNacimiento"/>
                         <ErrorMessage name="fechaNacimiento" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
                         <Field type="text" placeholder="Especialidad" className="input input-bordered input-info w-full my-2" id="especialidad" name="especialidad" />
                         <ErrorMessage name="especialidad" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
-
-                        <input type="date" placeholder="ingrese fecha" className="form-control"/>
 
                         <button type="submit" className="btn btn-sm btn-success hover:bg-cyan-600 w-full mt-5">Ingresar</button>
 

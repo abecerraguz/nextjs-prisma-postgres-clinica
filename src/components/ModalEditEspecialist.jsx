@@ -64,7 +64,7 @@ function ModalEditEspecialist() {
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
                         </select>
-                        <input type="date" placeholder="Fecha de Nacimiento" className="input input-bordered input-info w-full mb-4" id="fechaNacimiento" />
+                        <input type="date" placeholder="Fecha de Nacimiento" id="fechaNacimiento" />
                         <input type="text" placeholder="Especialidad" className="input input-bordered input-info w-full mb-5" id="especialidad"/>
                         <button className="btn btn-sm btn-success hover:bg-cyan-600 buttonEnviarEdit w-full">Actualizar</button>
                     </form>
