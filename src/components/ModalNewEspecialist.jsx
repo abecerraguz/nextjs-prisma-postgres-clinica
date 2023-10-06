@@ -114,7 +114,7 @@ function ModalNewEspecialist() {
                         <Field type="text" placeholder="Especialidad" className="input input-bordered input-info w-full my-2" id="especialidad" name="especialidad" />
                         <ErrorMessage name="especialidad" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
-                        <input type="date" placeholder="ingrese fecha"/>
+                        <input type="date" placeholder="ingrese fecha" className="form-control"/>
 
                         <button type="submit" className="btn btn-sm btn-success hover:bg-cyan-600 w-full mt-5">Ingresar</button>
 
