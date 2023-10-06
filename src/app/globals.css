@@ -36,6 +36,20 @@ p{
     animation: spin 1.2s linear infinite;
 }
 
+.dropdown .dropdown-content {
+  position: absolute!important;
+  width: 100vw!important;
+  right: -5px!important;
+  border-radius: 0 0 10px 10px;
+  top: 46px;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+}
+
+.dropdown ul li a:is(:not(details)) .dropdown-content {
+  visibility: hidden;
+  opacity: 0;
+}
+
 /* .table :where(thead, tbody) :where(tr:first-child:last-child) {
   border-bottom: 1px solid #e2e8f04b!important;
 } */
