@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 
 const handleAlertModal = (e) => {
+    e.preventDefault();
     const id = e.target.dataset.info
-    console.log(id)
     const modal = document.getElementById('my_modal_2')
     const buttonDeleteRegister = document.getElementById('deleteRegistro')
     buttonDeleteRegister.setAttribute('data-info', id)
@@ -48,27 +48,8 @@ const handleEditModal = async (e) => {
             formFechaNacimiento.value = new Date(date).toISOString().split('T')[0]
             formEspecialidad.value = especialidad
             formButton[1].setAttribute('id', pk_idEspecialista)
-
-            // console.log(typeof `${year}-${month}-${day}`)
-            // nombreForm.value = nombre
-            // apellidoForm.value = apellido
-            // sexoForm.value = sexo
-            // // fechaNacimientoForm.value = fechaNacimiento
-            // especialidadForm.value = especialidad
-
-
-            // form.nombre.value = nombre
-            // form.apellido.value = apellido
-            // form.sexo.value = sexo
-            // form.fechaNacimiento.value = nuevaFecha
-            // form.especialidad.value = especialidad
-            // form.setAttribute('data-info', pk_idEspecialista)
         })
-        .catch( error => console.log(error))
-
-    // const buttonDeleteRegister = document.getElementById('deleteRegistro')
-    // buttonDeleteRegister.setAttribute('data-info', id)
-    
+        .catch( error => console.log(error))   
 }
 
 function Especialist({ especialist }) {

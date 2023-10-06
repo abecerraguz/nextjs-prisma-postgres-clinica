@@ -36,6 +36,7 @@ export async function DELETE( request, { params } ){
                 pk_idEspecialista:params.id
             }
         })
+        console.log('Salida de delete', deleteEspecialistId)
         return NextResponse.json( deleteEspecialistId )
     } catch (error) {
         return NextResponse.json(error.message)
