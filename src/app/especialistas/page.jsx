@@ -32,7 +32,7 @@ function PageEspecialistas() {
     }
     return (
         
-        <section className='container m-auto md:w-full px-2 sm:px-5 py-20'>
+        <section className='container m-auto md:w-full px-5 sm:px-5 py-20'>
 
             <div className="flex justify-between items-center mb-5 py-3 border-b border-white-500">
                 <h1 className='text-xl font-bold uppercase'>Especialistas</h1>
@@ -53,7 +53,7 @@ function PageEspecialistas() {
                             <th>NOMBRE</th>
                             <th>APELLIDO</th>
                             <th>SEXO</th>
-                            <th>FECHA DE NACIMIENTO</th>
+                            <th>NACIMIENTO</th>
                             <th>ESPECIALIDAD</th>
                             <th>ACCION</th>
                         </tr>
