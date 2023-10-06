@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Formik, Field, ErrorMessage, Form, Select } from 'formik';
 import * as Yup from 'yup';
+import Link from "next/link"
 
 const validationSchema = Yup.object().shape({
     nombre: Yup.string().required('El nombre es obligatorio'),
@@ -75,7 +76,8 @@ function ModalNewEspecialist() {
     }
 
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (e) => {
+        e.preventDefault()
         const modal = document.getElementById('my_modal_1')
         modal.close()
     }
@@ -92,7 +94,7 @@ function ModalNewEspecialist() {
                 >
 
                     <Form className="w-full" method="dialog" >
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCloseModal}>✕</button>
+                        <Link className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCloseModal} href="/especialistas">✕</Link>
 
                         <Field type="text" placeholder="Nombre" className="input input-bordered input-info w-full my-2" id="nombre" name="nombre" />
                         <ErrorMessage name="nombre" component="div" className="text-cyan-400 text-sm tracking-wider error"/>

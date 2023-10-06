@@ -41,8 +41,13 @@ p{
   width: 100vw!important;
   right: -5px!important;
   border-radius: 0 0 10px 10px;
-  top: 46px;
+  top: 44px;
   box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+}
+
+.dropdown ul li{
+  border-bottom: 1px solid #ffffff31;
+  cursor: pointer;
 }
 
 .dropdown ul li a:is(:not(details)) .dropdown-content {

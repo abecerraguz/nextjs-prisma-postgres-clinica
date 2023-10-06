@@ -79,7 +79,7 @@ function Especialist({ especialist }) {
       
     
             <tr>
-                <th className='whitespace-nowrap'>{pk_idEspecialista}</th>
+                <th className='whitespace-nowrap text-sm md:text-base'>{pk_idEspecialista}</th>
                 <td>{nombre}</td>
                 <td>{apellido}</td>
                 <td>{sexo}</td>
@@ -88,17 +88,18 @@ function Especialist({ especialist }) {
                 <td>
                     <div className="flex gap-2">
                         <button 
-                            className="btn btn-sm btn-success hover:bg-cyan-600 sm:w-1/2" 
+                            className="btn btn-sm btn-success hover:bg-cyan-600 sm:w-1/2 text-xs md:text-sm" 
                             onClick={ handleEditModal }
                             data-info={pk_idEspecialista}
                         >
-                        <Image src={Edit} alt='Editar' width={18} height={18}/>Editar
+                        <Image src={Edit} alt='Editar' width={15} height={15}/>Editar
                         </button>
-                        <button className="btn btn-sm btn-error hover:bg-red-900 sm:w-1/2"
+                        <button 
+                            className="btn btn-sm btn-error hover:bg-red-900 sm:w-1/2 text-xs md:text-sm"
                             onClick={ handleAlertModal }
                             data-info={pk_idEspecialista}
                         >
-                        <Image src={Trash} alt='Eliminar' width={18} height={18}/>Eliminar
+                        <Image src={Trash} alt='Eliminar' width={15} height={15}/>Eliminar
                         </button>
                     </div>
                 </td>

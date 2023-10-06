@@ -50,7 +50,7 @@ function NavBars() {
             <label onClick={handleShowClick} tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </label>
-            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 bg-base-100 shadow-xl  bg-gradient-to-r from-slate-900 to-slate-700">
+            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 bg-base-100 shadow-xl  bg-gradient-to-r from-slate-900 to-slate-700 pb-5">
               <li onClick={handleHiddeClick}><Link href='/' className="text-sm uppercase tracking-widest">Home</Link></li>
               <li onClick={handleHiddeClick}><Link href='/pacientes' className="text-sm uppercase tracking-widest">Pacientes</Link></li>
               <li onClick={handleHiddeClick}><Link href='/especialistas' className="text-sm uppercase tracking-widest">Especialistas</Link></li>
