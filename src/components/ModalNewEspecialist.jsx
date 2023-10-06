@@ -1,6 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation";
-import { Formik, Field, ErrorMessage, Form, Select } from 'formik';
+import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 import Link from "next/link"
 
@@ -67,7 +67,6 @@ function ModalNewEspecialist() {
                 if (response.ok) {
                     const modal = document.getElementById('my_modal_1')
                     modal.close()
-                  
                     window.location.reload()
                 }
         })
@@ -109,11 +108,13 @@ function ModalNewEspecialist() {
                         </Field>
                         <ErrorMessage name="sexo" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
-                        <Field type="date" placeholder="Fecha de Nacimiento" className="input input-bordered input-info w-full my-2" id="fechaNacimiento" name="fechaNacimiento" />
+                        <Field type="date" placeholder="Fecha de Nacimiento" id="fechaNacimiento" name="fechaNacimiento" />
                         <ErrorMessage name="fechaNacimiento" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
                         <Field type="text" placeholder="Especialidad" className="input input-bordered input-info w-full my-2" id="especialidad" name="especialidad" />
                         <ErrorMessage name="especialidad" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
+
+                        <input type="date" placeholder="ingrese fecha"/>
 
                         <button type="submit" className="btn btn-sm btn-success hover:bg-cyan-600 w-full mt-5">Ingresar</button>
 
