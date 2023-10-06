@@ -44,12 +44,12 @@ function PageEspecialistas() {
                 </button>
             </div>
 
-            <div className="w-full rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 p-3 overflow-x-auto shadow-3xl relative z-0 mb-96">
+            <div className="w-full rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 p-3 overflow-x-auto shadow-3xl relative z-0" id='contentTable'>
                 <table className="table text-base">
                     {/* head */}
                     <thead className='uppercase font-extrabold text-sm md:text-base'>
                         <tr>
-                            <th>ID</th>
+                            {/* <th>ID</th> */}
                             <th>NOMBRE</th>
                             <th>APELLIDO</th>
                             <th>SEXO</th>
