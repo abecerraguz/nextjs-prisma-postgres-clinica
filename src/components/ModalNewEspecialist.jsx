@@ -1,5 +1,4 @@
 "use client"
-import { useRouter } from "next/navigation";
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 import Link from "next/link"
@@ -38,51 +37,40 @@ class Especialista {
 
 }
 
-function ModalNewEspecialist() {
-    const router = useRouter()
+function ModalNewEspecialist({ onClose, isModalOpen, onUpdate }) {
 
     const handleSubmit = (values) => {
 
-        console.log('x--------->',values)
-        const { nombre, apellido, sexo, fechaNacimiento, especialidad } = values
-        const nuevoEspecialista = new Especialista( nombre, apellido, sexo, fechaNacimiento, especialidad)
-
-        const datosParaEnviar = {
-            pk_idEspecialista: nuevoEspecialista.pk_idEspecialista,
-            nombre: nuevoEspecialista.nombre,
-            apellido: nuevoEspecialista.apellido,
-            sexo: nuevoEspecialista.sexo,
-            fechaNacimiento: new Date(nuevoEspecialista.fechaNacimiento),
-            especialidad: nuevoEspecialista.especialidad,
-        }
-        console.log(datosParaEnviar)
-        fetch('/api/especialistas', {
-            method: 'POST',
-            body: JSON.stringify(datosParaEnviar),
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            const { nombre, apellido, sexo, fechaNacimiento, especialidad } = values
+            const nuevoEspecialista = new Especialista( nombre, apellido, sexo, fechaNacimiento, especialidad)
+    
+            const datosParaEnviar = {
+                pk_idEspecialista: nuevoEspecialista.pk_idEspecialista,
+                nombre: nuevoEspecialista.nombre,
+                apellido: nuevoEspecialista.apellido,
+                sexo: nuevoEspecialista.sexo,
+                fechaNacimiento: new Date(nuevoEspecialista.fechaNacimiento),
+                especialidad: nuevoEspecialista.especialidad,
             }
-        })
-        .then(response => {
-                if (response.ok) {
-                    const modal = document.getElementById('my_modal_1')
-                    modal.close()
-                    window.location.reload()
-                }
-        })
-        .catch(error => console.log(error))
+            handleUpdate(datosParaEnviar)
+   
+        } catch (error) {
+            console.log(error)
+        }
         resetForm();
     }
 
 
-    const handleCloseModal = (e) => {
-        e.preventDefault()
-        const modal = document.getElementById('my_modal_1')
-        modal.close()
-    }
+    const handleUpdate = ( especialista ) => {
+        const dataEspecialista = {
+           especialista,
+        };
+        onUpdate(dataEspecialista);
+    };
 
     return (
-        <dialog id="my_modal_1" className="modal">
+        <dialog id="my_modal_1" className="modal" open={isModalOpen}>
             <div className="modal-box">
                 <h3 className="font-bold text-lg border-b border-white-500 uppercase tracking-wider mb-5">Ingrese especialista</h3>
 
@@ -93,7 +81,7 @@ function ModalNewEspecialist() {
                 >
 
                     <Form className="w-full" method="dialog" >
-                        <Link className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleCloseModal} href="/especialistas">✕</Link>
+                        <Link className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose} href="/especialistas">✕</Link>
 
                         <Field type="text" placeholder="Nombre" className="input input-bordered input-info w-full my-2" id="nombre" name="nombre" />
                         <ErrorMessage name="nombre" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
@@ -109,7 +97,7 @@ function ModalNewEspecialist() {
                         <ErrorMessage name="sexo" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
                         {/* <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01"></input> */}
-                        <Field type="date" id="fechaNacimiento" value="dd-mm-aaaa" name="fechaNacimiento" placeholder="Ingrese Fecha"/>
+                        <Field type="date" id="fechaNacimiento" name="fechaNacimiento" placeholder="Ingrese Fecha"/>
                         <ErrorMessage name="fechaNacimiento" component="div" className="text-cyan-400 text-sm tracking-wider error"/>
 
                         <Field type="text" placeholder="Especialidad" className="input input-bordered input-info w-full my-2" id="especialidad" name="especialidad" />

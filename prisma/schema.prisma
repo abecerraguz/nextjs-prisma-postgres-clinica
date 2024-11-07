@@ -8,11 +8,12 @@ datasource db {
 }
 
 model agendar_citas {
+  
   fk_idCita         String       @db.Char(7)
   fk_idEspecialista String       @db.Char(7)
   consultorio       String       @db.VarChar(20)
   fechaCita         DateTime     @db.Timestamptz(6)
-  horaCita          DateTime     @db.Time(6)
+  hora              String       @db.VarChar(6)
   turno             String       @db.VarChar(10)
   status            String       @db.VarChar(10)
   observaciones     String       @db.VarChar(100)
@@ -25,7 +26,7 @@ model agendar_citas {
 model cita {
   pk_idCita     String          @id @db.Char(7)
   fecha         DateTime        @db.Timestamptz(6)
-  hora          DateTime        @db.Time(6)
+  hora          String          @db.VarChar(6)
   fk_idPaciente String?         @db.Char(6)
   agendar_citas agendar_citas[]
   pacientes     pacientes?      @relation(fields: [fk_idPaciente], references: [pk_idPaciente], onDelete: Cascade)

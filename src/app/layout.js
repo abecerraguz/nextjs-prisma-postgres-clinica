@@ -3,12 +3,16 @@ import { Roboto_Condensed } from 'next/font/google'
 import NavBars from '@/components/NavBars';
 import Footer from '@/components/Footer';
 import Loading from '@/components/Loading';
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
+
 const roboto =  Roboto_Condensed({ 
     subsets: ['latin'],
     display:"fallback",
     style:'normal',
-    weight:"400"
-  })
+    weight:["300","400", "700"]
+})
 
 export const metadata = {
   title: 'The Clinic',

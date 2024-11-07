@@ -3,12 +3,12 @@ import { prisma } from '@/libs/prisma'
 
 export async function GET( request, { params } ){
     
-    const getEspecialist = await prisma.especialista.findUnique({
+    const getCita = await prisma.cita.findUnique({
         where:{
-            pk_idEspecialista:params.id
+            pk_idCita:params.id
         }
     })
-    return NextResponse.json(getEspecialist)
+    return NextResponse.json(getCita)
 
 }
 
@@ -17,9 +17,9 @@ export async function PUT( request, { params } ){
         const data = await request.json()
         console.log('Data---->', data)
         console.log( 'Data---->', params.id )
-        const updateEspecialist = await prisma.especialista.update({
+        const updateEspecialist = await prisma.cita.update({
             where:{
-                pk_idEspecialista:params.id
+                pk_idCita:params.id
             },
             data:data
         })
@@ -30,11 +30,11 @@ export async function PUT( request, { params } ){
 }
 
 export async function DELETE( request, { params } ){
-    console.log('Mierdaaaaaaaaaa----->', params)
     try {
-        const deleteEspecialistId = await prisma.especialista.delete({
+        console.log( 'Mierda dentro---->', params )
+        const deleteEspecialistId = await prisma.cita.delete({
             where:{
-                pk_idEspecialista:params.id
+                pk_idCita:params.id
             }
         })
         console.log('Salida de delete', deleteEspecialistId)
