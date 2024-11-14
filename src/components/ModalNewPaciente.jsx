@@ -117,6 +117,7 @@ function ModalNewPacient({ onUpdate, onUpdateExpediente,  isModalOpen, onClose }
 
             handleUpdate(datosParaEnviar)
             handleUpdateExpedientes(nuevoExpediente)
+            resetForm();
         }
         // await crearExpediente(nuevoExpediente)
      
@@ -126,7 +127,7 @@ function ModalNewPacient({ onUpdate, onUpdateExpediente,  isModalOpen, onClose }
             console.log(error)
         }
 
-        resetForm();
+       
     }
 
 

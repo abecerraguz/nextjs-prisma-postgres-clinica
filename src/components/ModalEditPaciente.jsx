@@ -43,7 +43,8 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
     }
 
 
-    const handleSave = () => {
+    const handleSave = (e) => {
+        e.preventDefault();
         const pacienteEditado = {
             pk_idPaciente: id,
             nombre,
@@ -62,12 +63,10 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
     return (
         <dialog id="modalEditPaciente" className="modal" open={isModalOpen}>
             <div className="modal-box">
-                <h3 className="font-bold text-lg border-b border-white-500 uppercase tracking-wider mb-5">Editar paciente</h3>
-
-
+                <h3 className="font-bold text-lg border-b border-white-500 uppercase tracking-wider mb-5">Editar pacienteeeeee</h3>
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose}>✕</button>
                 <form className="w-full" method="dialog" onSubmit={handleSave}>
-
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose}>✕</button>
+                    
                     <input type="text" placeholder="Nombre" className="input input-bordered input-info w-full my-2" id="nombre" name="nombre"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
@@ -154,7 +153,7 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
 
                     <button type="submit" className="btn btn-sm btn-success hover:bg-cyan-600 w-full mt-5 font-normal">Ingresar</button>
 
-                </form>
+                </form> 
             </div>
         </dialog>
     )
