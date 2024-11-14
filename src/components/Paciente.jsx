@@ -12,7 +12,6 @@ import ModalEditPaciente from '@/components/ModalEditPaciente';
 
 
 
-
 function Paciente({ paciente, onDelete, onUpdate }) {
 
     const [show, toggleShow] = useState(true);
@@ -79,6 +78,7 @@ function Paciente({ paciente, onDelete, onUpdate }) {
             console.error('Error al eliminar el registro:', error);
         }
     };
+
     const getCitas = async () => {
         try {
             const response = await fetch(`/api/citas`, {
@@ -287,7 +287,7 @@ function Paciente({ paciente, onDelete, onUpdate }) {
                             <tbody className="infoTableCitas">
                                 {citas.map((element, index) => (
                                     <>  {element.fk_idPaciente == pk_idPaciente ?
-                                        <>
+                                        
                                             <tr key={nanoid()}>
                                                 <td>{index + 1}</td>
                                                 <td>{element.nombre} {element.apellido}</td>
@@ -312,7 +312,7 @@ function Paciente({ paciente, onDelete, onUpdate }) {
                                             </tr>
 
 
-                                        </>
+                                        
                                         :
                                         null
                                     }
@@ -353,6 +353,7 @@ function Paciente({ paciente, onDelete, onUpdate }) {
                     paciente={pacienteSeleccionado}
                 />
             )}
+
             {isModalEditar && (
                 <ModalEditPaciente
                     onClose={closeModal}

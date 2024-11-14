@@ -78,7 +78,7 @@ model pacientes {
   telefono        String?      @unique @db.Char(12)
   estado          Boolean?     @default(true)
   cita            cita[]
-  expedientes     expedientes?
+  expedientes     expedientes[]
 }
 
 enum enum_pacientes_estado {

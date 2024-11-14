@@ -170,7 +170,7 @@ function PageEspecialistas() {
                         <tbody>
 
                             {especialistas.map(especialista => (
-                                <>
+                            
                                     <tr key={nanoid()}>
                                         <td>{especialista.nombre}</td>
                                         <td>{especialista.apellido}</td>
@@ -204,7 +204,7 @@ function PageEspecialistas() {
                                             </div>
                                         </td>
                                     </tr>
-                                </>
+                                
                             ))}
                         </tbody>
                     </table>

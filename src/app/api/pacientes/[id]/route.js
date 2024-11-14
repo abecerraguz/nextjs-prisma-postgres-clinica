@@ -4,6 +4,12 @@ import { prisma } from '@/libs/prisma'
 export async function GET(request, { params }) {
 
     const getPaciente = await prisma.pacientes.findUnique({
+        include: {
+            expedientes: true,  // Incluye también los datos del especialista
+        },
+        include: {
+            cita: true,  // Incluye también los datos del especialista
+        },
         where: {
             pk_idPaciente: params.id
         }

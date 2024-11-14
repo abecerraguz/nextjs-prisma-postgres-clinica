@@ -1,7 +1,10 @@
 "use client";
 import { useState } from 'react';
+
+
 function ModalAlert({ especialista, onClose, onDelete, isModalOpen, registro, paciente }) {
 
+    console.log('Salida de props-->', paciente )
 
     const [ id, setId ] = useState( especialista?.pk_idEspecialista || paciente?.pk_idPaciente );
 

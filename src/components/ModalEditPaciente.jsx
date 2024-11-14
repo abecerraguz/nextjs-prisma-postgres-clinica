@@ -1,18 +1,14 @@
 "use client"
-
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
-import Link from "next/link"
 import { useState, useEffect } from "react";
 import { nanoid } from 'nanoid';
 
 
-
-
-
-
 function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
 
+ 
+    const [{ tipoSangre, tipoAlergia, padecimientoCro, fechaCreacion }] = paciente['expedientes'] !== null && paciente['expedientes'] !== undefined ? paciente['expedientes'] : [{}];
     const [region, setRegion] = useState([])
     const [id, setId] = useState(paciente.pk_idPaciente);
     const [nombre, setNombre] = useState(paciente.nombre);
@@ -23,10 +19,11 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
     const [ciudad, setCiudad] = useState(paciente.ciudad);
     const [telefono, setTelefono] = useState(paciente.telefono.trim());
     const [estado, setEstado] = useState(paciente.estado);
-    const [sangre, setSangre] = useState(paciente['expedientes']?.tipoSangre);
-    const [alergia, setAlergia] = useState(paciente['expedientes']?.tipoAlergia);
-    const [padecimiento, setPadecimiento] = useState(paciente['expedientes']?.padecimientoCro);
-    const [fechaCreacion, setfechaCreacion] = useState(formatFecha(paciente['expedientes']?.fechaCreacion));
+    const [sangre, setSangre] = useState(tipoSangre);
+    const [alergia, setAlergia] = useState(tipoAlergia);
+    const [padecimiento, setPadecimiento] = useState(padecimientoCro);
+    const [fecha, setfecha] = useState(formatFecha(fechaCreacion));
+
 
     useEffect(() => {
         const getRegiones = async () => {
@@ -150,8 +147,8 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
                     />
 
                     <input type="date" id="fechaCreacion" name="fechaCreacion" placeholder="Ingrese Fecha de creacion"
-                        value={fechaCreacion}
-                        onChange={(e) => setfechaCreacion(e.target.value)}
+                        value={fecha}
+                        onChange={(e) => setfecha(e.target.value)}
                     />
 
 

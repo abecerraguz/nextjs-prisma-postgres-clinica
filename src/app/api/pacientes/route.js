@@ -4,17 +4,12 @@ import { prisma } from '@/libs/prisma'
 
 // Obtenemos las tareas de la tabla
 export async function GET(){
-    const pacientes = await prisma.pacientes.findMany(
-        {
+    const pacientes = await prisma.pacientes.findMany({
             include: {
-                expedientes: true,  // Incluye también los datos del especialista
-            },
-            include: {
-                cita: true,  // Incluye también los datos del especialista
-            }
-            
-        }
-    )
+                expedientes: true, 
+                cita:true
+            }  
+        })
     // console.log('XXXXX-->',pacientes)
     return NextResponse.json(pacientes)
 }

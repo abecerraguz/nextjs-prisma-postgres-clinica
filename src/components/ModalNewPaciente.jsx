@@ -58,7 +58,7 @@ class Expediente {
     }
 }
 
-function ModalNewPacient({ onUpdate, isModalOpen, onClose }) {
+function ModalNewPacient({ onUpdate, onUpdateExpediente,  isModalOpen, onClose }) {
 
     const [region, setRegion] = useState([])
   
@@ -73,30 +73,29 @@ function ModalNewPacient({ onUpdate, isModalOpen, onClose }) {
     }, [])
 
 
-    const crearExpediente = async( dataExpediente ) => {
-        try {
-            console.log('dataExpediente--->', dataExpediente)
-            await fetch(`/api/expedientes`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataExpediente),
-            });
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    
+    const handleUpdate = ( paciente ) => {
+        const dataPaciente = {
+            paciente,
+        };
+        onUpdate(dataPaciente);
+    };
 
+    const handleUpdateExpedientes = ( expediente ) => {
+        const dataExpediente = {
+            expediente,
+        };
+        onUpdateExpediente(dataExpediente);
+    };
   
-    const handleSubmit = ( values ) => {
+    const handleSubmit = async( values, { resetForm } ) => {
 
 
        try {
        // const { tipoSangre, tipoAlergia, padecimientoCronico, fechaCreacion } = values
        const { nombre,apellido,sexo,fechaNacimiento,region,ciudad,telefono,estado,tipoSangre,tipoAlergia,padecimientoCro,fechaCreacion } = values
        const nuevoPaciente = new Paciente( nombre, apellido, sexo, fechaNacimiento, region, ciudad, telefono, estado )
-       const nuevoExpediente = new Expediente( nuevoPaciente.pk_idPaciente, tipoSangre, tipoAlergia, padecimientoCro,new Date(fechaCreacion) )
+       const nuevoExpediente = new Expediente( nuevoPaciente.pk_idPaciente, tipoSangre, tipoAlergia, padecimientoCro, new Date(fechaCreacion) )
 
         const datosParaEnviar = {
             pk_idPaciente: nuevoPaciente.pk_idPaciente,
@@ -109,8 +108,20 @@ function ModalNewPacient({ onUpdate, isModalOpen, onClose }) {
             telefono: nuevoPaciente.telefono,
             estado: nuevoPaciente.estado
         }
-        handleUpdate(datosParaEnviar)
-        crearExpediente(nuevoExpediente)
+
+        if(datosParaEnviar.pk_idPaciente != null){
+            
+            console.log('Es distinto a nulo-->', datosParaEnviar.pk_idPaciente)
+            console.log('Datos para enviar paciente-->', datosParaEnviar)
+            console.log('Datos para enviar expediente-->', nuevoExpediente)
+
+            handleUpdate(datosParaEnviar)
+            handleUpdateExpedientes(nuevoExpediente)
+        }
+        // await crearExpediente(nuevoExpediente)
+     
+      
+
         } catch (error) {
             console.log(error)
         }
@@ -120,12 +131,7 @@ function ModalNewPacient({ onUpdate, isModalOpen, onClose }) {
 
 
 
-    const handleUpdate = ( paciente ) => {
-        const dataPaciente = {
-            paciente,
-        };
-        onUpdate(dataPaciente);
-    };
+  
 
 
     return (
