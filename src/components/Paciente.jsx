@@ -1,3 +1,7 @@
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+
 const Paciente = ({ element }) => {
     return (
         <>
