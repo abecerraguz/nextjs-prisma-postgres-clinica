@@ -1,7 +1,8 @@
 "use client";
 
 function ModalAlert({ isModalOpen, onClose, id, onEliminar }) {
-    // console.log('SALIDA PROPS-->', paciente)
+    
+    console.log('SALIDA PROPS-->',  id )
     // const idCita = id
     const handleEliminar = (idValue) => {
         try {

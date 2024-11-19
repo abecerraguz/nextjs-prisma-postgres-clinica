@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 
 function ModalNewCita({ onAgregar, isModalOpen, onClose, paciente }) {
 
-console.log( 'PROPS---->', paciente )
+    console.log( 'PROPS---->', paciente )
 
     const [especialista, setEspecialista] = useState([])
 
@@ -47,7 +47,7 @@ console.log( 'PROPS---->', paciente )
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
     }
 
-    const handleSubmit = (values) => {
+    const handleSubmit = (values, { resetForm }) => {
 
         const { fechaCita, horaCita, especialistaCita, consultorioCita, turnoCita, statusCita, observacionesCita } = values;
         const nuevaCita = new Cita(fechaCita, horaCita, paciente.pk_idPaciente);
@@ -78,6 +78,7 @@ console.log( 'PROPS---->', paciente )
                                 console.log( 'Salida de response-->', response )
                                 onClose()
                                 onAgregar()
+                                resetForm()
                             })
 
                     }

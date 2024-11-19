@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from 'react';
-// import Paciente from '@/components/Paciente';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCircleXmark, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import ModalNewPacient from '@/components/ModalNewPaciente';
@@ -8,6 +7,7 @@ import { nanoid } from 'nanoid';
 import ModalAlert from "@/components/ModalAlert";
 import ModalEditPaciente from '@/components/ModalEditPaciente';
 import ModalNewCita from '@/components/ModalNewCita';
+import ModalAlertEliminarCita from '@/components/ModalAlertEliminarCita'
 
 
 
@@ -16,12 +16,14 @@ function PagePacientes() {
     const [pacientes, setPacientes] = useState([]);
     const [isModalOpenNewPacient, setIsModalOpenNewPacient] = useState(false);
     const [isModalAlertEliminar, setisModalAlertEliminar] = useState(false);
+    const [isModalAlertEliminarCita, setisModalAlertEliminarCita ] = useState(false)
     const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
     const [isModalEditar, setisModalEditar] = useState(false);
     const [estado, setEstado] = useState(null);
     const [expandido, setExpandido] = useState({});
     const [isModalNewCita, setisModalNewCita] = useState(false);
     const [citas, setCitas] = useState([]);
+    const [idCita, setIdCita] = useState([]);
 
     useEffect(() => {
 
@@ -92,8 +94,6 @@ function PagePacientes() {
         setIsModalOpenNewPacient(true)
     };
 
-
-
     const handleEditUpdate = async (pacienteUpdate) => {
         try {
             const response = await fetch(`/api/pacientes/${pacienteUpdate.pk_idPaciente}`, {
@@ -127,6 +127,7 @@ function PagePacientes() {
 
     };
 
+    // Actualiza el state cuendo se crea un paciente 
     const handleUpdate = async (pacienteUpdate) => {
 
         try {
@@ -157,6 +158,7 @@ function PagePacientes() {
         }
     };
 
+    // Cuando se crea un paciente se crea un expediente
     const handleUpdateExpediente = async (expedienteUpdate) => {
         console.log('expedienteUpdate en page-->', expedienteUpdate)
         console.log('expedienteUpdate.expediente en page-->', expedienteUpdate.expediente)
@@ -185,14 +187,15 @@ function PagePacientes() {
         setIsModalOpenNewPacient(false);
         setisModalAlertEliminar(false);
         setisModalEditar(false)
-        // setPacienteSeleccionado(null);
+        setisModalNewCita(false)
+        setisModalAlertEliminarCita(false)
     };
 
-    const handleDeleteClick = (paciente) => {
-        setPacienteSeleccionado(paciente);
-        setisModalAlertEliminar(true);
-        setPacienteSeleccionado(null);
-    };
+    // const handleDeleteClick = (paciente) => {
+    //     setPacienteSeleccionado(paciente);
+    //     setisModalAlertEliminar(true);
+    //     setPacienteSeleccionado(null);
+    // };
 
     const handleEstadoChange = async (e) => {
         const nuevoEstado = e.target.checked;
@@ -217,7 +220,7 @@ function PagePacientes() {
     };
 
     // Eliminar Paciente por ID
-    const handleDelete = async (dataId) => {
+    const handleDeletePaciente = async (dataId) => {
 
         try {
 
@@ -243,6 +246,34 @@ function PagePacientes() {
 
         } catch (error) {
             console.error('Error al eliminar el registro:', error);
+        }
+    };
+
+    // Eliminar Cita por ID
+    const handleDeleteCita = async (dataId) => {
+
+        try {
+
+            await fetch(`/api/citas/${dataId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        response.json()
+                            .then(respuesta => {
+                                console.log('Salida de repuesta --->', respuesta)
+                                const filtro = citas.filter(element => element.pk_idCita !== respuesta.pk_idCita)
+                                setCitas(filtro);
+                                closeModal();
+                            })
+                    }
+                })
+
+        } catch (error) {
+            console.error('Error al eliminar la cita:', error);
         }
     };
 
@@ -272,9 +303,9 @@ function PagePacientes() {
     const handleEditClick = (paciente) => {
         setisModalEditar(true);
         setPacienteSeleccionado(paciente);
-
     };
 
+    // Guarda y actualiza un paciente editado
     const handleSave = (pacienteEditado) => {
         try {
             const { pk_idPaciente, nombre, apellido, sexo, fechaNacimiento, region, ciudad, telefono, estado } = pacienteEditado
@@ -288,9 +319,16 @@ function PagePacientes() {
         }
     };
 
-    const handleAddCita = () => {
+    const handleAddCita = (paciente) => {
         setisModalNewCita(true)
+        setPacienteSeleccionado(paciente);
     };
+
+    const handleAlertModalEliminarCita = (id) => {
+        setisModalAlertEliminarCita(true)
+        setIdCita(id)
+    }
+
 
 
     const Paciente = ({ element }) => {
@@ -375,7 +413,7 @@ function PagePacientes() {
     </button> */}
                             <button
                                 className="btn btn-sm bg-gradient-to-r from-green-500 to-green-700 font-normal tooltip flex"
-                                onClick={handleAddCita}
+                                onClick={()=>handleAddCita(element)}
                                 data-tip="Agendar cita"
                             >
                                 <FontAwesomeIcon
@@ -401,20 +439,22 @@ function PagePacientes() {
                                     </tr>
                                 </thead>
                                 <tbody className="infoTableCitas">
-                                    {citas.map((element, index) => (
-                                        <>  {element.fk_idPaciente == pk_idPaciente ?
+                                    {citas.map((cita, index) => (
+                                        
+                                        
+                                        cita.fk_idPaciente == element.pk_idPaciente ?
 
                                             <tr key={nanoid()}>
                                                 <td>{index + 1}</td>
-                                                <td>{element.nombre} {element.apellido}</td>
-                                                <td>{element.especialidad}</td>
-                                                <td>{element.fecha}</td>
-                                                <td>{element.hora}</td>
-                                                <td>{element.consultorio}</td>
+                                                <td>{cita.nombre} {cita.apellido}</td>
+                                                <td>{cita.especialidad}</td>
+                                                <td>{cita.fecha}</td>
+                                                <td>{cita.hora}</td>
+                                                <td>{cita.consultorio}</td>
                                                 <td>
                                                     <button
                                                         className="btn btn-sm btn-error hover:bg-red-900 text-black hover:text-white sm:w-full text-xs md:text-sm tooltip flex"
-                                                        onClick={() => handleAlertModalEliminarCita(element.pk_idCita)}
+                                                        onClick={() => handleAlertModalEliminarCita(cita.pk_idCita)}
                                                         // data-info={element.pk_idCita}
                                                         data-tip="Eliminarrrrr"
                                                     >
@@ -427,13 +467,11 @@ function PagePacientes() {
                                                 </td>
                                             </tr>
 
-
-
                                             :
                                             null
-                                        }
+                                        
 
-                                        </>
+                                        
                                     ))}
 
                                 </tbody>
@@ -490,6 +528,15 @@ function PagePacientes() {
 
             </section>
 
+            {isModalAlertEliminarCita &&
+                <ModalAlertEliminarCita
+                    onClose={closeModal}
+                    isModalOpen={isModalAlertEliminarCita}
+                    id={idCita}
+                    onEliminar={handleDeleteCita}
+                />
+            }
+     
             {isModalOpenNewPacient && (
                 <ModalNewPacient
                     onClose={closeModal}
@@ -503,7 +550,7 @@ function PagePacientes() {
             {isModalAlertEliminar && (
                 <ModalAlert
                     onClose={closeModal}
-                    onDelete={handleDelete}
+                    onDelete={handleDeletePaciente}
                     isModalOpen={isModalAlertEliminar}
                     paciente={pacienteSeleccionado}
                 />
@@ -523,7 +570,7 @@ function PagePacientes() {
                     isModalOpen={isModalNewCita}
                     onClose={closeModal}
                     onAgregar={getCitas}
-                    paciente={paciente}
+                    paciente={pacienteSeleccionado}
                 />
             )}
 
