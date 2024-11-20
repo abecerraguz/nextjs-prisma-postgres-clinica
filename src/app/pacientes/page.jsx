@@ -335,12 +335,12 @@ function PagePacientes() {
         return (
             <>
                 <tr>
-                    <th scope="row" className="collapseAction flex items-center justify-center">
+                    <td scope="row">
                         <i
                             className={expandido[element.pk_idPaciente] ? 'minus' : 'more'}
                             onClick={() => toggleExpandir(element.pk_idPaciente)}
                         ></i>
-                    </th>
+                    </td>
                     <td>{element.nombre}</td>
                     <td>{element.apellido}</td>
                     <td>{element.sexo}</td>
