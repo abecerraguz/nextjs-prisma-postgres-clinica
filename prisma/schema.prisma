@@ -12,7 +12,7 @@ model agendar_citas {
   fk_idCita         String       @db.Char(7)
   fk_idEspecialista String       @db.Char(7)
   consultorio       String       @db.VarChar(20)
-  fechaCita         DateTime     @db.Timestamptz(6)
+  fechaCita         DateTime     @db.Date
   hora              String       @db.VarChar(6)
   turno             String       @db.VarChar(10)
   status            String       @db.VarChar(10)
@@ -25,7 +25,7 @@ model agendar_citas {
 
 model cita {
   pk_idCita     String          @id @db.Char(7)
-  fecha         DateTime        @db.Timestamptz(6)
+  fecha         DateTime        @db.Date
   hora          String          @db.VarChar(6)
   fk_idPaciente String?         @db.Char(6)
   agendar_citas agendar_citas[]
@@ -63,7 +63,7 @@ model expedientes {
   tipoSangre      String    @db.VarChar(10)
   tipoAlergia     String    @db.VarChar(50)
   padecimientoCro String    @db.VarChar(50)
-  fechaCreacion   DateTime  @db.Timestamptz(6)
+  fechaCreacion   DateTime  @db.Date
   pacientes       pacientes @relation(fields: [pk_idPaciente], references: [pk_idPaciente], onDelete: Cascade)
 }
 
@@ -72,7 +72,7 @@ model pacientes {
   nombre          String       @db.VarChar(20)
   apellido        String       @db.VarChar(20)
   sexo            String       @db.Char(1)
-  fechaNacimiento DateTime     @db.Timestamptz(6)
+  fechaNacimiento DateTime     @db.Date
   region          String       @db.VarChar(200)
   ciudad          String       @db.VarChar(200)
   telefono        String?      @unique @db.Char(12)

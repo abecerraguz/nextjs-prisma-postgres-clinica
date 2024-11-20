@@ -151,10 +151,10 @@ function PagePacientes() {
                     })
                 closeModal();
             } else {
-                console.error('Error al eliminar el registro');
+                console.error('Error al crear el paciente');
             }
         } catch (error) {
-            console.error('Error al eliminar el registro:', error);
+            console.error('Error al crear el paciente:', error);
         }
     };
 
