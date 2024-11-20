@@ -335,7 +335,7 @@ function PagePacientes() {
         return (
             <>
                 <tr>
-                    <td scope="row">
+                    <td scope="row" className="collapseAction flex items-center justify-center">
                         <i
                             className={expandido[element.pk_idPaciente] ? 'minus' : 'more'}
                             onClick={() => toggleExpandir(element.pk_idPaciente)}
@@ -345,8 +345,8 @@ function PagePacientes() {
                     <td>{element.apellido}</td>
                     <td>{element.sexo}</td>
                     <td>{new Date(element.fechaNacimiento).toLocaleDateString()}</td>
-                    <td>{element.region}</td>
-                    <td>{element.ciudad}</td>
+                    <td className='whitespace-nowrap'>{element.region}</td>
+                    <td className='whitespace-nowrap'>{element.ciudad}</td>
                     <td>{element.telefono}</td>
                     <td>
                         <div className="flex gap-2">
