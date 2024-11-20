@@ -5,10 +5,13 @@ import { useState, useEffect } from "react";
 import { nanoid } from 'nanoid';
 
 
-function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
+function ModalEditPaciente({ onClose, isModalOpen, paciente, onSave }) {
 
- 
-    const [{ tipoSangre, tipoAlergia, padecimientoCro, fechaCreacion }] = paciente['expedientes'] !== null && paciente['expedientes'] !== undefined ? paciente['expedientes'] : [{}];
+
+    console.log('Salida-->', paciente )
+    const { tipoSangre, tipoAlergia, padecimientoCro, fechaCreacion } = paciente?.expedientes ?? {};
+    //     // const [{ tipoSangre, tipoAlergia, padecimientoCro, fechaCreacion } = {}] = paciente?.expedientes ?? [{}];
+    
     const [region, setRegion] = useState([])
     const [id, setId] = useState(paciente.pk_idPaciente);
     const [nombre, setNombre] = useState(paciente.nombre);
@@ -61,6 +64,7 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
 
 
     return (
+      
         <dialog id="modalEditPaciente" className="modal" open={isModalOpen}>
             <div className="modal-box">
                 <h3 className="font-bold text-lg border-b border-white-500 uppercase tracking-wider mb-5">Editar pacienteeeeee</h3>
@@ -159,4 +163,4 @@ function ModalNewPacient({ onClose, isModalOpen, paciente, onSave }) {
     )
 }
 
-export default ModalNewPacient
+export default ModalEditPaciente
