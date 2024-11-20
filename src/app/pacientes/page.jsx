@@ -7,8 +7,9 @@ import { nanoid } from 'nanoid';
 import ModalAlert from "@/components/ModalAlert";
 import ModalEditPaciente from '@/components/ModalEditPaciente';
 import ModalNewCita from '@/components/ModalNewCita';
-import ModalAlertEliminarCita from '@/components/ModalAlertEliminarCita'
-
+import ModalAlertEliminarCita from '@/components/ModalAlertEliminarCita';
+import useSWR from 'swr';
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
 function PagePacientes() {
@@ -24,32 +25,34 @@ function PagePacientes() {
     const [isModalNewCita, setisModalNewCita] = useState(false);
     const [citas, setCitas] = useState([]);
     const [idCita, setIdCita] = useState([]);
+    const { data, error } = useSWR('/api/pacientes', fetcher);
 
+ 
     useEffect(() => {
 
-        const getPacientes = async () => {
-            try {
-                const response = await fetch(`/api/pacientes`, {
-                    method: 'GET',
-                });
+        // const getPacientes = async () => {
+        //     try {
+        //         const response = await fetch(`/api/pacientes`, {
+        //             method: 'GET',
+        //         });
 
-                if (response.ok) {
-                    const data = await response.json()
-                    setPacientes(data)
-                } else {
-                    console.error('Error al obtener registro');
-                }
+        //         if (response.ok) {
+        //             const data = await response.json()
+        //             setPacientes(data)
+        //         } else {
+        //             console.error('Error al obtener registro');
+        //         }
 
-            } catch (error) {
-                console.error('Error al obtener el registro:', error);
-            }
-        }
-        getPacientes()
+        //     } catch (error) {
+        //         console.error('Error al obtener el registro:', error);
+        //     }
+        // }
+        // getPacientes()
         getCitas()
         
     }, []);
 
-
+    
     const getCitas = async () => {
         try {
             const response = await fetch(`/api/citas`, {
@@ -332,6 +335,7 @@ function PagePacientes() {
 
 
     const Paciente = ({ element }) => {
+
         return (
             <>
                 <tr>
@@ -483,6 +487,11 @@ function PagePacientes() {
         )
     }
 
+    if (error) return <div>Error loading data</div>;
+    if (!data) return <div>Loading...</div>;
+  
+    
+
     return (
         <>
             <section className='container m-auto md:w-full px-5 sm:px-5 py-20'>
@@ -517,7 +526,7 @@ function PagePacientes() {
                             </tr>
                         </thead>
                         <tbody>
-                            {pacientes.map(element => (
+                            {data.map(element => (
                                 <Paciente element={element} key={nanoid()} />
                             ))}
                         </tbody>
