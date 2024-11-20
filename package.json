@@ -14,7 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@prisma/client": "^5.3.1",
+    "@prisma/client": "^5.22.0",
     "autoprefixer": "10.4.16",
     "bootstrap-icons": "^1.11.1",
     "dayjs": "^1.11.13",
@@ -32,6 +32,6 @@
   },
   "devDependencies": {
     "daisyui": "^3.8.2",
-    "prisma": "^5.3.1"
+    "prisma": "^5.22.0"
   }
 }
