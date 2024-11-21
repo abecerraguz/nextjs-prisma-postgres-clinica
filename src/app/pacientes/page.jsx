@@ -8,13 +8,13 @@ import ModalAlert from "@/components/ModalAlert";
 import ModalEditPaciente from '@/components/ModalEditPaciente';
 import ModalNewCita from '@/components/ModalNewCita';
 import ModalAlertEliminarCita from '@/components/ModalAlertEliminarCita';
-import useSWR from 'swr';
+
+import useSWR, { mutate } from 'swr';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
 function PagePacientes() {
 
-    const [pacientes, setPacientes] = useState([]);
     const [isModalOpenNewPacient, setIsModalOpenNewPacient] = useState(false);
     const [isModalAlertEliminar, setisModalAlertEliminar] = useState(false);
     const [isModalAlertEliminarCita, setisModalAlertEliminarCita ] = useState(false)
@@ -25,31 +25,12 @@ function PagePacientes() {
     const [isModalNewCita, setisModalNewCita] = useState(false);
     const [citas, setCitas] = useState([]);
     const [idCita, setIdCita] = useState([]);
-    const { data, error } = useSWR('/api/pacientes', fetcher);
+    const { data, error, mutate } = useSWR('/api/pacientes', fetcher);
+
 
  
     useEffect(() => {
-
-        // const getPacientes = async () => {
-        //     try {
-        //         const response = await fetch(`/api/pacientes`, {
-        //             method: 'GET',
-        //         });
-
-        //         if (response.ok) {
-        //             const data = await response.json()
-        //             setPacientes(data)
-        //         } else {
-        //             console.error('Error al obtener registro');
-        //         }
-
-        //     } catch (error) {
-        //         console.error('Error al obtener el registro:', error);
-        //     }
-        // }
-        // getPacientes()
         getCitas()
-        
     }, []);
 
     
@@ -99,7 +80,8 @@ function PagePacientes() {
 
     const handleEditUpdate = async (pacienteUpdate) => {
         try {
-            const response = await fetch(`/api/pacientes/${pacienteUpdate.pk_idPaciente}`, {
+            const id = pacienteUpdate.pk_idPaciente
+            const response = await fetch(`/api/pacientes/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -108,24 +90,23 @@ function PagePacientes() {
             });
 
             if (response.ok) {
-
-                const filtro = pacientes.filter(element => element.pk_idPaciente !== pacienteUpdate.pk_idPaciente)
-
-                const dataPacientes = [
-                    ...filtro,
-                    pacienteUpdate
-                ];
-
-                setPacientes(dataPacientes);
+                const pacienteActualizado = await response.json();
+                // Actualizar la caché con mutate
+                mutate(
+                  '/api/pacientes',
+                  (data) =>
+                    data.map((item) =>
+                      item.pk_idPaciente === id ? { ...item, ...pacienteActualizado } : item
+                    ),
+                  false // No revalidar aún
+                );
                 closeModal();
 
             } else {
-                console.error('Error al eliminar el registro');
+                console.error('Error al editar al paciente');
             }
-
-
         } catch (error) {
-            console.error('Error al eliminar el registro:', error);
+            console.error('Error al editar al paciente:', error);
         }
 
     };
@@ -143,15 +124,12 @@ function PagePacientes() {
             });
 
             if (response.ok) {
-                response.json()
-                    .then(response => {
-                        console.log('Salida de response en el page-->', response)
-                        const dataPaciente = [
-                            ...pacientes,
-                            response
-                        ];
-                        setPacientes(dataPaciente);
-                    })
+                const pacienteCreado = await response.json();
+                    mutate(
+                        '/api/pacientes', // Key de la cache
+                        (data) => [...data, pacienteCreado], // Actualizar la lista con el nuevo paciente
+                        false // No revalidar, usamos los datos locales directamente
+                    );
                 closeModal();
             } else {
                 console.error('Error al crear el paciente');
@@ -226,27 +204,19 @@ function PagePacientes() {
     const handleDeletePaciente = async (dataId) => {
 
         try {
-
             const { id } = dataId
-            console.log('ID-->', id)
-            await fetch(`/api/pacientes/${id}`, {
+            const response = await fetch(`/api/pacientes/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        response.json()
-                            .then(respuesta => {
-                                console.log('Salida de repuesta --->', respuesta)
-                                const filtro = pacientes.filter(element => element.pk_idPaciente !== respuesta.pk_idPaciente)
-                                setPacientes(filtro);
-                                closeModal();
-                            })
-                    }
-                })
-
+            });
+            if (response.ok) {
+                mutate();
+                closeModal();
+            } else {
+                console.error('Error al eliminar el paciente');
+            }
         } catch (error) {
             console.error('Error al eliminar el registro:', error);
         }
@@ -490,8 +460,6 @@ function PagePacientes() {
     if (error) return <div>Error loading data</div>;
     if (!data) return <div>Loading...</div>;
   
-    
-
     return (
         <>
             <section className='container m-auto md:w-full px-5 sm:px-5 py-20'>
