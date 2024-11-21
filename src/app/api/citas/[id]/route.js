@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/libs/prisma'
 
-export async function GET( request, { params } ){
-    
+export async function GET(request, props) {
+    const params = await props.params;
+
     const getCita = await prisma.cita.findUnique({
         where:{
             pk_idCita:params.id
         }
     })
     return NextResponse.json(getCita)
-
 }
 
-export async function PUT( request, { params } ){
+export async function PUT(request, props) {
+    const params = await props.params;
     try {
         const data = await request.json()
         console.log('Data---->', data)
@@ -26,10 +27,11 @@ export async function PUT( request, { params } ){
         return NextResponse.json(updateEspecialist)
     } catch (error) {
         return NextResponse.json('Mierda----->'+error.message)
-    }  
+    }
 }
 
-export async function DELETE( request, { params } ){
+export async function DELETE(request, props) {
+    const params = await props.params;
     try {
         console.log( 'Mierda dentro---->', params )
         const deleteEspecialistId = await prisma.cita.delete({

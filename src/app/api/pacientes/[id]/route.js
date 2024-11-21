@@ -1,36 +1,36 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/libs/prisma'
 
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
 
-    const getPaciente = await prisma.pacientes.findUnique({
-        include: {
-            expedientes: true,  // Incluye también los datos del especialista
-        },
-        include: {
-            cita: true,  // Incluye también los datos del especialista
-        },
-        where: {
-            pk_idPaciente: params.id
-        }
-    })
-    return NextResponse.json(getPaciente)
-
+  const getPaciente = await prisma.pacientes.findUnique({
+      include: {
+          expedientes: true,  // Incluye también los datos del especialista
+      },
+      include: {
+          cita: true,  // Incluye también los datos del especialista
+      },
+      where: {
+          pk_idPaciente: params.id
+      }
+  })
+  return NextResponse.json(getPaciente)
 }
 
 export async function PUT(request, context) {
     try {
       const { params } = context;
-  
+      const { id } = await params
       // Validar que params esté definido
-      if (!params || !params.id) {
+      if (!params || !id) {
         return NextResponse.json(
           { error: 'El ID del paciente no fue proporcionado' },
           { status: 400 }
         );
       }
   
-      const id = params.id;
+      // const id = params.id;
   
       // Validar que el ID cumpla con el formato esperado (letra-guion-números)
       const idRegex = /^[A-Z]-\d{4}$/; // Formato: Letra mayúscula, guion y 4 dígitos
@@ -91,15 +91,16 @@ export async function PUT(request, context) {
 //     }
 // }
 
-export async function DELETE(request, { params }) {
-    try {
-        const deletePacientId = await prisma.pacientes.delete({
-            where: {
-                pk_idPaciente: params.id
-            }
-        })
-        return NextResponse.json(deletePacientId)
-    } catch (error) {
-        return NextResponse.json(error.message)
-    }
+export async function DELETE(request, props) {
+  const params = await props.params;
+  try {
+      const deletePacientId = await prisma.pacientes.delete({
+          where: {
+              pk_idPaciente: params.id
+          }
+      })
+      return NextResponse.json(deletePacientId)
+  } catch (error) {
+      return NextResponse.json(error.message)
+  }
 }

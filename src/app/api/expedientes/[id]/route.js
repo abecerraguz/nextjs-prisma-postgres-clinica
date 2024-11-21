@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/libs/prisma'
 
-export async function GET( request, { params } ){
-    
+export async function GET(request, props) {
+    const params = await props.params;
+
     const getExpediente = await prisma.expedientes.findUnique({
         where:{
             pk_idPaciente:params.id
         }
     })
     return NextResponse.json(getExpediente)
-
 }
 
-export async function PUT( request, { params } ){
+export async function PUT(request, props) {
+    const params = await props.params;
     try {
         const data = await request.json()
         console.log('Data---->', data)
@@ -26,7 +27,7 @@ export async function PUT( request, { params } ){
         return NextResponse.json(updateExpediente)
     } catch (error) {
         return NextResponse.json('Mierda----->'+error.message)
-    }  
+    }
 }
 
 // export async function DELETE( request, { params } ){

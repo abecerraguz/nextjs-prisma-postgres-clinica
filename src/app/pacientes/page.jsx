@@ -80,6 +80,7 @@ function PagePacientes() {
 
     const handleEditUpdate = async (pacienteUpdate) => {
         try {
+
             const id = pacienteUpdate.pk_idPaciente
             const response = await fetch(`/api/pacientes/${id}`, {
                 method: 'PUT',
