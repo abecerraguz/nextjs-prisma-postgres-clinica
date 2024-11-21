@@ -9,12 +9,12 @@ import ModalEditPaciente from '@/components/ModalEditPaciente';
 import ModalNewCita from '@/components/ModalNewCita';
 import ModalAlertEliminarCita from '@/components/ModalAlertEliminarCita';
 
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
 function PagePacientes() {
-
+    const { data: pacientes, mutate } = useSWR('/api/pacientes', fetcher);
     const [isModalOpenNewPacient, setIsModalOpenNewPacient] = useState(false);
     const [isModalAlertEliminar, setisModalAlertEliminar] = useState(false);
     const [isModalAlertEliminarCita, setisModalAlertEliminarCita ] = useState(false)
@@ -25,7 +25,7 @@ function PagePacientes() {
     const [isModalNewCita, setisModalNewCita] = useState(false);
     const [citas, setCitas] = useState([]);
     const [idCita, setIdCita] = useState([]);
-    const { data, error, mutate } = useSWR('/api/pacientes', fetcher);
+    // const { data: pacientes, error, mutate } = useSWR('/api/pacientes', fetcher);
 
 
  
@@ -90,16 +90,7 @@ function PagePacientes() {
             });
 
             if (response.ok) {
-                const pacienteActualizado = await response.json();
-                // Actualizar la caché con mutate
-                mutate(
-                  '/api/pacientes',
-                  (data) =>
-                    data.map((item) =>
-                      item.pk_idPaciente === id ? { ...item, ...pacienteActualizado } : item
-                    ),
-                  false // No revalidar aún
-                );
+                mutate(); // Actualiza la lista
                 closeModal();
 
             } else {
@@ -124,12 +115,7 @@ function PagePacientes() {
             });
 
             if (response.ok) {
-                const pacienteCreado = await response.json();
-                    mutate(
-                        '/api/pacientes', // Key de la cache
-                        (data) => [...data, pacienteCreado], // Actualizar la lista con el nuevo paciente
-                        false // No revalidar, usamos los datos locales directamente
-                    );
+                mutate(); // Actualiza la lista
                 closeModal();
             } else {
                 console.error('Error al crear el paciente');
@@ -457,8 +443,7 @@ function PagePacientes() {
         )
     }
 
-    if (error) return <div>Error loading data</div>;
-    if (!data) return <div>Loading...</div>;
+    if (!pacientes) return <p>Cargando...</p>;
   
     return (
         <>
@@ -494,7 +479,7 @@ function PagePacientes() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map(element => (
+                            {pacientes.map(element => (
                                 <Paciente element={element} key={nanoid()} />
                             ))}
                         </tbody>
