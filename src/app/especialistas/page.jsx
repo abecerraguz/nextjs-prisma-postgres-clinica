@@ -8,6 +8,8 @@ import ModalEditEspecialist from '@/components/ModalEditEspecialist';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPenToSquare, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { nanoid } from 'nanoid';
+import { useRouter } from 'next/navigation';
+import { isTokenExpired } from '@/utils/auth';
 
 function PageEspecialistas() {
 
@@ -17,17 +19,32 @@ function PageEspecialistas() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenAlert, setIsModalOpenAlert] = useState(false);
     const [isModalOpenNewEspecilsit, setModalOpenNewEspecilsit] = useState(false);
+    const router = useRouter();
 
 
 
     useEffect(() => {
-        const fetchEspecialistas = async () => {
-            const response = await fetch('/api/especialistas');
-            const data = await response.json();
-            setEspecialistas(data);
-        };
-        fetchEspecialistas();
-    }, []);
+
+
+    
+
+        const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('token='))
+        ?.split('=')[1];
+    
+        if (isTokenExpired(token) === null ) {
+            router.push('/login'); // Redirige al login si el token ha expirado
+        }else{
+            const fetchEspecialistas = async () => {
+                const response = await fetch('/api/especialistas');
+                const data = await response.json();
+                setEspecialistas(data);
+            };
+            fetchEspecialistas();
+        }
+
+    }, [router]);
 
     const handleEditClick = (especialista) => {
         setEspecialistaSeleccionado(especialista);
