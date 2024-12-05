@@ -1,41 +1,21 @@
+// Sólo sirve en la lógica del cliente
 import { NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
-
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
 
 export function middleware(req) {
-  const { pathname } = req.nextUrl;
-  const token = req.cookies.get('token')?.value;
+  console.log('Mirda-->')
+  const token = req.cookies.get('token'); // Obtiene el token de las cookies
+  const loginUrl = new URL('/login', req.url); // URL para redirigir al login
 
-  // Rutas públicas
-  if (pathname === '/' || pathname.startsWith('/login')) {
-    return NextResponse.next();
-  }
-
-  // Verifica el token para rutas protegidas
-  if (!token) {
-    const loginUrl = new URL('/login', req.url);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  try {
-    // Decodifica el token
-    const user = jwt.verify(token, SECRET_KEY);
-
-    // Protege rutas basadas en roles
-    if (pathname.startsWith('/admin') && user.role !== 'SUPERADMIN') {
-      const unauthorizedUrl = new URL('/unauthorized', req.url);
-      return NextResponse.redirect(unauthorizedUrl);
+  // Verifica si la ruta es protegida
+  if (req.nextUrl.pathname.startsWith('/especialistas') || req.nextUrl.pathname.startsWith('/pacientes')) {
+    if (!token) {
+      return NextResponse.redirect(loginUrl); // Redirige si no hay token
     }
-
-    return NextResponse.next();
-  } catch (error) {
-    // Token inválido o expirado
-    const loginUrl = new URL('/login', req.url);
-    return NextResponse.redirect(loginUrl);
   }
+
+  return NextResponse.next(); // Continúa con la solicitud si hay token
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard/:path*', '/api/protected/:path*'], // Define las rutas protegidas
+  matcher: ['/especialistas/:path*', '/pacientes/:path*'], // Rutas protegidas
 };
