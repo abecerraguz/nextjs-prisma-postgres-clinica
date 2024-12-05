@@ -67,7 +67,7 @@ function ModalEditPaciente({ onClose, isModalOpen, paciente, onSave }) {
       
         <dialog id="modalEditPaciente" className="modal" open={isModalOpen}>
             <div className="modal-box">
-                <h3 className="font-bold text-lg border-b border-white-500 uppercase tracking-wider mb-5">Editar pacienteeeeee</h3>
+                <h3 className="font-bold text-lg border-b border-white-500 uppercase tracking-wider mb-5">Editar paciente</h3>
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose}>✕</button>
                 <form className="w-full" method="dialog" onSubmit={handleSave}>
                     

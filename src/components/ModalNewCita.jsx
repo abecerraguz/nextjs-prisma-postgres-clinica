@@ -130,7 +130,7 @@ function ModalNewCita({ onAgregar, isModalOpen, onClose, paciente }) {
                 >
 
                     <Form className="w-full" method="dialog" >
-                        <Link className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose} href="/pacientes">✕</Link>
+                        <Link className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose} href="/protected/pacientes">✕</Link>
 
                         <Field type="date" placeholder="Ingrese Fecha" className="input input-bordered input-info w-full my-2" id="fechaCita" name="fechaCita" />
                         <ErrorMessage name="fechaCita" component="div" className="text-cyan-400 text-sm tracking-wider error" />

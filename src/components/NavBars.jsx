@@ -102,8 +102,8 @@ function Navbar() {
   // ADMIN
 
   const navigation = [
-    { name: 'Pacientes', href: '/pacientes', current: true },
-    { name: 'Especialistas', href: '/especialistas', current: false },
+    { name: 'Pacientes', href: '/protected/pacientes', current: true },
+    { name: 'Especialistas', href: '/protected/especialistas', current: false },
   ]
 
   function AdminNavbar(arr) {

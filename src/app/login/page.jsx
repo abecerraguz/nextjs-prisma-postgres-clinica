@@ -29,7 +29,7 @@ const Login = () => {
       const decoded = JSON.parse(atob(token.split('.')[1]));
       setIsAuthenticated(true);
       setRole(decoded.role); // Establece el rol desde el token
-      router.push('/pacientes');
+      router.push('protected/pacientes');
     } else {
       alert('Inicio de sesión fallido');
     }
