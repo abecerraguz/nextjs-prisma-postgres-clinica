@@ -17,5 +17,5 @@ export function middleware(req) {
 }
 
 export const config = {
-  matcher: ['/especialistas/:path*', '/pacientes/:path*'], // Rutas protegidas
+  matcher: ['/api/login/:path*', '/api/especialistas/:path*', '/api/especialistas/' ], // Rutas protegidas
 };

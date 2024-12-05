@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode'; // Necesitarás instalar esta librería: npm install jwt-decode
+import {jwtDecode} from 'jwt-decode'; // Necesitarás instalar esta librería: npm install jwt-decode
 
 export default function ProtectedLayout({ children }) {
   const router = useRouter();
@@ -22,6 +22,7 @@ export default function ProtectedLayout({ children }) {
       if (decodedToken.exp < currentTime) {
         // Si el token ha expirado, redirige al login
         Cookies.remove('token'); // Opcional: Borra la cookie del token
+        document.cookie = 'token=; Max-Age=0'; // Elimina el token
         router.push('/login');
         return;
       }
