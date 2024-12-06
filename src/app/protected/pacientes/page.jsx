@@ -444,11 +444,15 @@ function PagePacientes() {
         )
     }
 
-    if (!pacientes) return <p>Cargando...</p>;
+    if (!pacientes) return (
+        <div className="contentSpinnerLoading">
+            <div className="spinner"></div>
+       </div>
+    );
   
     return (
         <>
-            <section className='container m-auto md:w-full px-5 sm:px-5 py-20'>
+            <section className='container m-auto md:w-full px-5 sm:px-5 py-20 min-h-screen'>
 
                 <div className="flex justify-between items-center mb-5 py-3 border-b border-white-500">
                     <h1 className='text-xl font-normal uppercase'>Pacientes</h1>

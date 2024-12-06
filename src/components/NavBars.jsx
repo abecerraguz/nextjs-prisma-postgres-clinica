@@ -29,7 +29,7 @@ function Navbar() {
       return classes.filter(Boolean).join(' ')
     }
     return (
-      <Disclosure as="nav" className="bg-gray-800 fixed md:w-full w-full">
+      <Disclosure as="nav" className="bg-gray-800 fixed md:w-full w-full z-50">
         <div className="container m-auto md:w-full px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -115,7 +115,7 @@ function Navbar() {
     }
 
     return (
-      <Disclosure as="nav" className="bg-gray-800 md:w-full w-full">
+      <Disclosure as="nav" className="bg-gray-800 fixed md:w-full w-full z-50">
         <div className="container m-auto md:w-full px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
