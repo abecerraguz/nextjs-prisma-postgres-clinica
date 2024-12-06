@@ -1,7 +1,7 @@
 function Loading() {
   return (
-    <div class="contentSpinnerLoading">
-        <div class="contentSpinnerLoading__spinner"></div>
+    <div className="contentSpinnerLoading">
+        <div className="contentSpinnerLoading__spinner"></div>
     </div>
   )
 }

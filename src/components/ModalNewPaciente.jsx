@@ -122,6 +122,7 @@ function ModalNewPacient({ onUpdate, onUpdateExpediente, isModalOpen, onClose })
 
                     <Form className="w-full" method="dialog">
                         <Link className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose} href="/protected/pacientes">✕</Link>
+                        
                         <Field type="text" placeholder="Nombre" className="input input-bordered input-info w-full my-2" id="nombre" name="nombre" />
                         <ErrorMessage name="nombre" component="div" className="text-cyan-400 text-sm tracking-wider error" />
 
