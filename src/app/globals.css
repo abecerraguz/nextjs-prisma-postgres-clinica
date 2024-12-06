@@ -299,15 +299,16 @@ input[type="date"]:hover::-webkit-calendar-picker-indicator:hover { opacity:0.15
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+@layer utilities {
+  .input-autocomplete:-webkit-autofill {
+    background-color: #cfe8fc !important; /* Fondo azul claro */
+    border-color: #4a90e2 !important;    /* Borde azul */
+    color: #1e3a8a !important;          /* Texto azul oscuro */
+  }
+  .input-autocomplete:-webkit-autofill:hover,
+  .input-autocomplete:-webkit-autofill:focus {
+    background-color: #dceefb !important; /* Fondo al pasar el mouse o enfocar */
+    border-color: #2563eb !important;    /* Borde al pasar el mouse o enfocar */
+  }
+}
 
-
-/* #contentTable:after{
-  content: '';
-  width: 40px;
-  height: 100vh;
-  background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
-  top: 0;
-  right: 0;
-  z-index: 1000;
-  position: absolute;
-} */
