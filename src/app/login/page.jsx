@@ -66,7 +66,7 @@ const Login = () => {
               <Field 
                 type="email" 
                 placeholder="Ingresa tu correo"
-                className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+                className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-white bg-white-transparent"
                 id="email"
                 name="email"
               />
@@ -78,7 +78,7 @@ const Login = () => {
           <Field 
                 type="password" 
                 placeholder="Ingresa tu contraseña"
-                className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+                className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-white bg-white-transparent"
                 id="password"
                 name="password"
           />
@@ -87,7 +87,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            className="btn btn-sm btn-success hover:bg-cyan-600 w-full mt-5 font-normal"
           >
             Login
           </button>
