@@ -71,7 +71,7 @@ function PageHome() {
           <td>
   
               <button
-                className="btn btn-sm bg-cyan-600 hover:bg-cyan-800 text-slate-900 hover:text-white sm:w-full text-xs md:text-sm tooltip flex"
+                className="btn btn-sm bg-cyan-600 hover:bg-cyan-800 text-slate-900 hover:text-white sm:w-full text-xs md:text-sm tooltip flex border border-gray-300"
                 onClick={() => getPacienteID(element.pk_idPaciente)}
                 data-tip="Ver citas"
               >
