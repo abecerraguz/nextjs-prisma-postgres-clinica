@@ -2,11 +2,9 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import ModalNewPacient from '@/components/ModalNewPaciente';
 import { nanoid } from 'nanoid';
-import ModalAlert from "@/components/ModalAlert";
-import ModalEditPaciente from '@/components/ModalEditPaciente';
-import ModalAlertEliminarCita from '@/components/ModalAlertEliminarCita';
+import ModalInfoCitasPaciente  from '@/components/ModalInfoCitasPaciente'
+
 
 import useSWR from 'swr';
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -14,15 +12,12 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 function PageHome() {
 
   const { data: pacientes } = useSWR('/api/pacientes', fetcher);
-  const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
-  const [isModalEditar, setisModalEditar] = useState(false);
-
-  // const { data: pacientes, error, mutate } = useSWR('/api/pacientes', fetcher);
-
+  const [ pacienteSeleccionado, setPacienteSeleccionado ] = useState(null);
+  const [ isModalInfoPaciente, setisModalInfoPaciente ] = useState(false);
 
 
   const closeModal = () => {
-    setisModalEditar(false)
+    setisModalInfoPaciente(false)
   };
 
 
@@ -45,6 +40,13 @@ function PageHome() {
 
     } catch (error) {
       console.error('Error al obtener el registro:', error);
+    }
+  }
+
+  const handelGetPacientes = (id) => {
+    if( id !== undefined || id !== null ){
+      setisModalInfoPaciente(true)
+      getPacienteID(id)
     }
   }
 
@@ -72,7 +74,8 @@ function PageHome() {
   
               <button
                 className="btn btn-sm bg-cyan-600 hover:bg-cyan-800 text-slate-900 hover:text-white sm:w-full text-xs md:text-sm tooltip flex border border-gray-300"
-                onClick={() => getPacienteID(element.pk_idPaciente)}
+                // onClick={() => getPacienteID(element.pk_idPaciente)}
+                onClick={() => handelGetPacientes(element.pk_idPaciente)}
                 data-tip="Ver citas"
               >
                 <FontAwesomeIcon
@@ -89,6 +92,7 @@ function PageHome() {
     
     )
   }
+
 
   if (!pacientes) return (
     <div className="contentSpinnerLoading">
@@ -136,12 +140,11 @@ function PageHome() {
 
 
 
-      {isModalEditar && (
-        <ModalEditPaciente
+      {isModalInfoPaciente && (
+        <ModalInfoCitasPaciente
           onClose={closeModal}
-          isModalOpen={isModalEditar}
-          paciente={pacienteSeleccionado}
-          onSave={handleSave}
+          isModalOpen={isModalInfoPaciente}
+          infoCitaPaciente={pacienteSeleccionado}
         />
       )}
 

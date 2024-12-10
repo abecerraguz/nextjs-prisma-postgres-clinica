@@ -1,21 +1,63 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/libs/prisma'
 
-export async function GET(request, props) {
-  const params = await props.params;
 
-  const getPaciente = await prisma.pacientes.findUnique({
+
+export async function GET( request, context ) {
+
+  try {
+    const { params } = context;
+    const { id } = await params
+    // Validar que params esté definido
+    if (!params || !id) {
+      return NextResponse.json(
+        { error: 'El ID del paciente no fue proporcionado' },
+        { status: 400 }
+      );
+    }
+
+    // Validar que el ID cumpla con el formato esperado (letra-guion-números)
+    const idRegex = /^[A-Z]-\d{4}$/; // Formato: Letra mayúscula, guion y 4 dígitos
+    if (!idRegex.test(id)) {
+      return NextResponse.json(
+        { error: 'El ID del paciente no cumple con el formato requerido (e.g., P-6880)' },
+        { status: 400 }
+      );
+    }
+
+    // Leer el cuerpo de la solicitud
+    // const data = await request.json();
+
+    // Validar que los datos no estén vacíos
+
+    // if (!data || Object.keys(data).length === 0) {
+    //   return NextResponse.json(
+    //     { error: 'No se enviaron datos para buscar al paciente' },
+    //     { status: 400 }
+    //   );
+    // }
+
+    // console.log('Salida de data-->', data)
+
+    // Actualizar en la base de datos
+    const findPacienteID = await prisma.pacientes.findUnique({
+      where: { pk_idPaciente: id },
       include: {
-          expedientes: true,  // Incluye también los datos del especialista
-      },
-      include: {
-          cita: true,  // Incluye también los datos del especialista
-      },
-      where: {
-          pk_idPaciente: params.id
+        expedientes: true,
+        cita: true,
       }
-  })
-  return NextResponse.json(getPaciente)
+    });
+
+    return NextResponse.json( findPacienteID , { status: 200 });
+
+  } catch (error) {
+    console.error('Error al buscar el paciente:', error);
+
+    return NextResponse.json(
+      { error: 'Error interno del servidor', details: error.message },
+      { status: 500 }
+    );
+  }
 }
 
 export async function PUT(request, context) {
@@ -72,24 +114,6 @@ export async function PUT(request, context) {
     }
   }
 
-// export async function PUT(request, { params }) {
-//     try {
-     
-//         const data = await request.json()
-//         const updatePacient = await prisma.pacientes.update({
-//             where: {
-//                 pk_idPaciente: params.id
-//             },
-//             include: {
-//                 expedientes: true,
-//             },
-//             data: data
-//         })
-//         return NextResponse.json(updatePacient)
-//     } catch (error) {
-//         return NextResponse.json(error.message)
-//     }
-// }
 
 export async function DELETE(request, props) {
   const params = await props.params;
