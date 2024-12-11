@@ -23,7 +23,7 @@ function ModalInfoCitasPaciente({ onClose, isModalOpen, infoCitaPaciente }) {
                                 <ul>
                                     {
                                         infoCitaPaciente?.cita.map(element => {
-
+                                            <li>{element}</li>
                                         })
                                     }
 
