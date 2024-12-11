@@ -30,10 +30,7 @@ function PageHome() {
 
       if (response.ok) {
         const data = await response.json()
-        console.log('Data-->', data)
         setPacienteSeleccionado(data)
-
-
       } else {
         console.error('Error al obtener registro');
       }
