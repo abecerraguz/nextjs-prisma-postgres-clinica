@@ -39,7 +39,7 @@ export default function ModalNewCita({ isModalOpen, onClose, onCreated, paciente
       const res = await fetch('/api/citas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...values, fecha: new Date(values.fecha) }),
+        body: JSON.stringify({ ...values, fecha: new Date(`${values.fecha}T${values.hora}:00`) }),
       })
       if (res.ok) { resetForm(); onCreated?.(); onClose() }
     },

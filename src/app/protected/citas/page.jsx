@@ -29,7 +29,9 @@ export default function CitasPage() {
 
   const filtered = (citas ?? []).filter(c => {
     const matchEstado = filtroEstado ? c.estado === filtroEstado : true
-    const matchFecha = filtroFecha ? c.fecha?.startsWith(filtroFecha) : true
+    const matchFecha = filtroFecha
+      ? new Date(c.fecha).toLocaleDateString('en-CA', { timeZone: 'America/Santiago' }) === filtroFecha
+      : true
     const q = search.toLowerCase()
     const matchSearch = q
       ? c.paciente?.nombre?.toLowerCase().includes(q) ||
@@ -91,7 +93,7 @@ export default function CitasPage() {
         />
         <input
           type="date"
-          className="input input-bordered input-sm bg-base-100"
+          className="input input-bordered input-sm"
           value={filtroFecha}
           onChange={e => setFiltroFecha(e.target.value)}
         />
@@ -139,13 +141,13 @@ export default function CitasPage() {
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='bg-white'>
               {filtered.map(c => (
                 <tr key={c.id} className="hover:bg-base-200 transition-colors">
                   <td className="font-medium">{c.paciente?.nombre} {c.paciente?.apellido}</td>
                   <td>{c.especialista?.nombre} {c.especialista?.apellido}</td>
                   <td className="text-gray-400 text-xs">{c.especialista?.especialidad}</td>
-                  <td>{c.fecha ? new Date(c.fecha).toLocaleDateString('es-CL') : '-'}</td>
+                  <td>{c.fecha ? new Date(c.fecha).toLocaleDateString('es-CL', { timeZone: 'America/Santiago' }) : '-'}</td>
                   <td>{c.hora}</td>
                   <td>{c.consultorio}</td>
                   <td><span className="badge badge-sm badge-ghost">{c.turno}</span></td>
