@@ -1,19 +1,17 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/prisma/client/client"
+import { PrismaPg } from "@prisma/adapter-pg"
 
-export const prisma = new PrismaClient()
+const globalForPrisma = globalThis
 
-// para importar datos a la base de datos
+const createAdapter = () =>
+  new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  })
 
-// import { PrismaClient } from '@prisma/client';
+export const prisma =
+  globalForPrisma.prisma ?? new PrismaClient({ adapter: createAdapter() })
 
-// // Prevenir múltiples instancias en desarrollo
-// const globalForPrisma = global;
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
 
-// const prisma = globalForPrisma.prisma || new PrismaClient();
-
-// if (process.env.NODE_ENV !== 'production') {
-//   globalForPrisma.prisma = prisma;
-// }
-
-// export default prisma;
 

@@ -1,6 +1,6 @@
 # The Clinic — Sistema de Gestión Clínica
 
-Aplicación web fullstack para la gestión de pacientes, especialistas, citas médicas y diagnósticos. Desarrollada como proyecto de portafolio con Next.js 15 y PostgreSQL.
+Aplicación web fullstack para la gestión de pacientes, especialistas, citas médicas y diagnósticos. Con Next.js 15 y PostgreSQL.
 
 ---
 
@@ -113,14 +113,6 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Credenciales de Prueba
-
-| Email | Contraseña | Rol |
-|---|---|---|
-| superadmin@example.com | superadmin123 | SUPERADMIN |
-| user1@example.com | user123 | USER |
-
----
 
 ## API Endpoints
 
