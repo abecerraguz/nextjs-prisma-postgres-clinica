@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  USER
+}
+
+model Paciente {
+  id              String        @id @default(cuid())
+  nombre          String        @db.VarChar(50)
+  apellido        String        @db.VarChar(50)
+  sexo            String        @db.Char(1)
+  fechaNacimiento DateTime      @db.Date
+  region          String        @db.VarChar(200)
+  ciudad          String        @db.VarChar(200)
+  telefono        String?       @unique @db.VarChar(15)
+  tipoSangre      String?       @db.VarChar(10)
+  tipoAlergia     String?       @db.VarChar(100)
+  padecimientoCro String?       @db.VarChar(100)
+  activo          Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  citas           Cita[]
+  diagnosticos    Diagnostico[]
+}
+
+model Especialista {
+  id              String        @id @default(cuid())
+  nombre          String        @db.VarChar(50)
+  apellido        String        @db.VarChar(50)
+  sexo            String        @db.Char(1)
+  fechaNacimiento DateTime      @db.Date
+  especialidad    String        @db.VarChar(50)
+  activo          Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  citas           Cita[]
+  diagnosticos    Diagnostico[]
+}
+
+model Cita {
+  id             String       @id @default(cuid())
+  pacienteId     String
+  especialistaId String
+  fecha          DateTime     @db.Date
+  hora           String       @db.VarChar(10)
+  consultorio    String       @db.VarChar(50)
+  turno          String       @db.VarChar(10)
+  estado         EstadoCita   @default(PENDIENTE)
+  observaciones  String?      @db.VarChar(200)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  paciente       Paciente     @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  especialista   Especialista @relation(fields: [especialistaId], references: [id], onDelete: Cascade)
+}
+
+enum EstadoCita {
+  PENDIENTE
+  CONFIRMADA
+  COMPLETADA
+  CANCELADA
+}
+
+model Diagnostico {
+  id              Int           @id @default(autoincrement())
+  pacienteId      String
+  especialistaId  String?
+  edad            Int
+  peso            Float
+  altura          Float
+  imc             Float
+  nivelPeso       String        @db.VarChar(20)
+  presionArterial String        @db.VarChar(10)
+  diagnostico     String        @db.VarChar(200)
+  recetario       String        @db.VarChar(200)
+  fechaCreacion   DateTime      @default(now())
+  paciente        Paciente      @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  especialista    Especialista? @relation(fields: [especialistaId], references: [id])
+}
